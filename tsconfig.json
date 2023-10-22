@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "skipDefaultLibCheck": true,
+    "module": "commonjs",
+    "declaration": true,
+    "noImplicitAny": false,
+    "removeComments": true,
+    "noLib": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es5",
+    "sourceMap": true,
+    "lib": ["es5", "dom"]
+  },
+  "exclude": ["node_modules", "**/*.spec.ts", "**/__tests__/**"]
+}

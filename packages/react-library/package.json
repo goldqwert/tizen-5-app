@@ -1,0 +1,66 @@
+{
+  "name": "react-library",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "author": "Yury Kalenkou <goldyukol12@gmail.com>",
+  "homepage": "",
+  "license": "ISC",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/types/index.d.ts",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib",
+    "dist"
+  ],
+  "alias": {
+    "react": "preact/compat",
+    "react-dom": "preact/compat"
+  },
+  "scripts": {
+    "test": "node ./__tests__/react-library.test.js",
+    "build": "npm run tsc",
+    "tsc": "tsc -p . --outDir ./dist",
+    "start": "webpack-dev-server --mode development"
+  },
+  "dependencies": {
+    "html-webpack-plugin": "^3.2.0",
+    "preact": "^10.4.8",
+    "ts-loader": "5.3.3",
+    "typescript": "3.7.2",
+    "webpack": "^4.28.4",
+    "webpack-cli": "^3.3.0",
+    "webpack-dev-server": "^3.3.1",
+    "stencil-library": "*",
+    "react-library": "*"
+  },
+  "devDependencies": {
+    "@types/react": "^16.8.8",
+    "@types/react-dom": "^16.8.2",
+    "@types/webpack": "3.8.8",
+    "@types/webpack-dev-server": "3.1.4",
+    "css-loader": "1.0.1",
+    "postcss": "7.0.0",
+    "react-scripts": "^5.0.1",
+    "sass-loader": "7.1.0",
+    "style-loader": "0.23.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

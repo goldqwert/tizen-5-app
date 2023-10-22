@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "alwaysStrict": true,
+    "declaration": true,
+    "declarationDir": "./dist/types",
+    "allowJs": true,
+    "outDir": "./dist",
+    "jsx": "react",
+    "target": "es2017",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "lib": ["dom", "es2015", "es2016", "es2017"],
+    "jsxFactory": "React.createElement",
+    "noEmitHelpers": true,
+    "importHelpers": true,
+    "allowSyntheticDefaultImports": true,
+    "strictNullChecks": true,
+    "baseUrl": ".",
+    "paths": {
+      "react": ["node_modules/preact-compat"],
+      "react-dom": ["node_modules/preact-compat"]
+    },
+    "types": ["node"]
+  },
+  "include": ["lib"],
+  "exclude": ["node_modules"]
+}
