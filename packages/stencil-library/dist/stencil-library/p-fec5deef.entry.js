@@ -1,0 +1,1 @@
+import{r,h as t}from"./p-f8fd8523.js";const o=class{constructor(t){r(this,t)}getText(){return(this.first||"")+((r=this.middle)?" "+r:"")+((t=this.last)?" "+t:"");var r,t}render(){return t("div",null,"Hello, World! I'm ",this.getText())}};o.style=":host{display:block;color:red;background:black}";export{o as my_component}

@@ -26,10 +26,8 @@
     "generate": "stencil generate"
   },
   "devDependencies": {
-    "@stencil/core": "2.22.3",
-    "@stencil/react-output-target": "0.0.9",
-    "jest": "^27.5.1",
-    "jest-cli": "^27.5.1"
+    "@stencil/core": "2.0.0",
+    "@stencil/react-output-target": "0.0.9"
   },
   "license": "MIT",
   "dependencies": {
