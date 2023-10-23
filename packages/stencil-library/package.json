@@ -26,7 +26,7 @@
     "generate": "stencil generate"
   },
   "devDependencies": {
-    "@stencil/core": "2.21.0",
+    "@stencil/core": "2.22.3",
     "@stencil/react-output-target": "0.0.9",
     "jest": "^27.5.1",
     "jest-cli": "^27.5.1"

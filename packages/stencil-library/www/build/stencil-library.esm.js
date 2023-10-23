@@ -1,1 +1,1 @@
-import{p as t,b as m}from"./p-1c06c0ba.js";(()=>{const m=import.meta.url,o={};return""!==m&&(o.resourcesUrl=new URL(".",m).href),t(o)})().then((t=>m([["p-5e8469d6",[[1,"my-component",{first:[1],middle:[1],last:[1]}]]]],t)));
+import{p as o,b as t}from"./p-1b1b7a5c.js";export{s as setNonce}from"./p-1b1b7a5c.js";(()=>{const s=import.meta.url,t={};return""!==s&&(t.resourcesUrl=new URL(".",s).href),o(t)})().then((s=>t([["p-64a2ca7d",[[1,"my-component",{first:[1],middle:[1],last:[1]}]]]],s)));
