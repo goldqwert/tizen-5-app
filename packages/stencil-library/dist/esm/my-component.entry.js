@@ -1,4 +1,4 @@
-import { r as registerInstance, h } from './index-bfe52b2c.js';
+import { r as registerInstance, h } from './index-9d2d9309.js';
 
 function format(first, middle, last) {
   return (first || '') + (middle ? ` ${middle}` : '') + (last ? ` ${last}` : '');
@@ -23,5 +23,3 @@ const MyComponent = class {
 MyComponent.style = myComponentCss;
 
 export { MyComponent as my_component };
-
-//# sourceMappingURL=my-component.entry.js.map

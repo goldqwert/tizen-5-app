@@ -80,4 +80,3 @@ export class MyComponent {
     };
   }
 }
-//# sourceMappingURL=my-component.js.map

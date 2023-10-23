@@ -258,15 +258,6 @@ export declare function getAssetPath(path: string): string;
  */
 export declare function setAssetPath(path: string): string;
 /**
- * Used to specify a nonce value that corresponds with an application's
- * [Content Security Policy (CSP)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP).
- * When set, the nonce will be added to all dynamically created script and style tags at runtime.
- * Alternatively, the nonce value can be set on a `meta` tag in the DOM head
- * (<meta name="csp-nonce" content="{ nonce value here }" />) and will result in the same behavior.
- * @param nonce The value to be used for the nonce attribute.
- */
-export declare function setNonce(nonce: string): void;
-/**
  * Retrieve a Stencil element for a given reference
  * @param ref the ref to get the Stencil element for
  * @returns a reference to the element
@@ -485,14 +476,6 @@ export interface FunctionalUtilities {
 export interface FunctionalComponent<T = {}> {
     (props: T, children: VNode[], utils: FunctionalUtilities): VNode | VNode[];
 }
-/**
- * A Child VDOM node
- *
- * This has most of the same properties as {@link VNode} but friendlier names
- * (i.e. `vtag` instead of `$tag$`, `vchildren` instead of `$children$`) in
- * order to provide a friendlier public interface for users of the
- * {@link FunctionalUtilities}).
- */
 export interface ChildNode {
     vtag?: string | number | Function;
     vkey?: string | number;
@@ -539,9 +522,6 @@ export declare function h(sel: any, children: Array<VNode | undefined | null>): 
 export declare function h(sel: any, data: VNodeData | null, text: string): VNode;
 export declare function h(sel: any, data: VNodeData | null, children: Array<VNode | undefined | null>): VNode;
 export declare function h(sel: any, data: VNodeData | null, children: VNode): VNode;
-/**
- * A virtual DOM node
- */
 export interface VNode {
     $flags$: number;
     $tag$: string | number | Function;
@@ -812,7 +792,6 @@ export declare namespace JSXBase {
         datetime?: string;
     }
     interface DialogHTMLAttributes<T> extends HTMLAttributes<T> {
-        onCancel?: (event: Event) => void;
         onClose?: (event: Event) => void;
         open?: boolean;
         returnValue?: string;
@@ -893,8 +872,8 @@ export declare namespace JSXBase {
         accept?: string;
         allowdirs?: boolean;
         alt?: string;
-        autoCapitalize?: string;
-        autocapitalize?: string;
+        autoCapitalize?: any;
+        autocapitalize?: any;
         autoComplete?: string;
         autocomplete?: string;
         autoFocus?: boolean;
@@ -1218,8 +1197,8 @@ export declare namespace JSXBase {
         resource?: string;
         typeof?: string;
         vocab?: string;
-        autoCapitalize?: string;
-        autocapitalize?: string;
+        autoCapitalize?: any;
+        autocapitalize?: any;
         autoCorrect?: string;
         autocorrect?: string;
         autoSave?: string;
@@ -1510,12 +1489,12 @@ export declare namespace JSXBase {
         onCutCapture?: (event: ClipboardEvent) => void;
         onPaste?: (event: ClipboardEvent) => void;
         onPasteCapture?: (event: ClipboardEvent) => void;
-        onCompositionend?: (event: CompositionEvent) => void;
-        onCompositionendCapture?: (event: CompositionEvent) => void;
-        onCompositionstart?: (event: CompositionEvent) => void;
-        onCompositionstartCapture?: (event: CompositionEvent) => void;
-        onCompositionupdate?: (event: CompositionEvent) => void;
-        onCompositionupdateCapture?: (event: CompositionEvent) => void;
+        onCompositionEnd?: (event: CompositionEvent) => void;
+        onCompositionEndCapture?: (event: CompositionEvent) => void;
+        onCompositionStart?: (event: CompositionEvent) => void;
+        onCompositionStartCapture?: (event: CompositionEvent) => void;
+        onCompositionUpdate?: (event: CompositionEvent) => void;
+        onCompositionUpdateCapture?: (event: CompositionEvent) => void;
         onFocus?: (event: FocusEvent) => void;
         onFocusCapture?: (event: FocusEvent) => void;
         onFocusin?: (event: FocusEvent) => void;
@@ -1526,8 +1505,8 @@ export declare namespace JSXBase {
         onBlurCapture?: (event: FocusEvent) => void;
         onChange?: (event: Event) => void;
         onChangeCapture?: (event: Event) => void;
-        onInput?: (event: InputEvent) => void;
-        onInputCapture?: (event: InputEvent) => void;
+        onInput?: (event: Event) => void;
+        onInputCapture?: (event: Event) => void;
         onReset?: (event: Event) => void;
         onResetCapture?: (event: Event) => void;
         onSubmit?: (event: Event) => void;

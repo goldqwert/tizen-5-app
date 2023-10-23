@@ -2,7 +2,7 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index = require('./index-68381c3f.js');
+const index = require('./index-b47ee660.js');
 
 function format(first, middle, last) {
   return (first || '') + (middle ? ` ${middle}` : '') + (last ? ` ${last}` : '');
@@ -27,5 +27,3 @@ const MyComponent = class {
 MyComponent.style = myComponentCss;
 
 exports.my_component = MyComponent;
-
-//# sourceMappingURL=my-component.cjs.entry.js.map

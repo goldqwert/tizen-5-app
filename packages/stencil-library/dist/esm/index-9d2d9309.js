@@ -27,30 +27,11 @@ const uniqueTime = (key, measureText) => {
 };
 const HYDRATED_CSS = '{visibility:hidden}.hydrated{visibility:inherit}';
 const isDef = (v) => v != null;
-/**
- * Check whether a value is a 'complex type', defined here as an object or a
- * function.
- *
- * @param o the value to check
- * @returns whether it's a complex type or not
- */
 const isComplexType = (o) => {
     // https://jsperf.com/typeof-fn-object/5
     o = typeof o;
     return o === 'object' || o === 'function';
 };
-/**
- * Helper method for querying a `meta` tag that contains a nonce value
- * out of a DOM's head.
- *
- * @param doc The DOM containing the `head` to query against
- * @returns The content of the meta tag representing the nonce value, or `undefined` if no tag
- * exists or the tag has no content.
- */
-function queryNonceMetaTagContent(doc) {
-    var _a, _b, _c;
-    return (_c = (_b = (_a = doc.head) === null || _a === void 0 ? void 0 : _a.querySelector('meta[name="csp-nonce"]')) === null || _b === void 0 ? void 0 : _b.getAttribute('content')) !== null && _c !== void 0 ? _c : undefined;
-}
 /**
  * Production h() function based on Preact by
  * Jason Miller (@developit)
@@ -96,14 +77,6 @@ const h = (nodeName, vnodeData, ...children) => {
     }
     return vnode;
 };
-/**
- * A utility function for creating a virtual DOM node from a tag and some
- * possible text content.
- *
- * @param tag the tag for this element
- * @param text possible text content for the node
- * @returns a newly-minted virtual DOM node
- */
 const newVNode = (tag, text) => {
     const vnode = {
         $flags$: 0,
@@ -115,12 +88,6 @@ const newVNode = (tag, text) => {
     return vnode;
 };
 const Host = {};
-/**
- * Check whether a given node is a Host node or not
- *
- * @param node the virtual DOM node to check
- * @returns whether it's a Host node or not
- */
 const isHost = (node) => node && node.$tag$ === Host;
 /**
  * Parse a new property value for a given property type.
@@ -190,7 +157,6 @@ const registerStyle = (scopeId, cssText, allowCS) => {
     styles.set(scopeId, style);
 };
 const addStyle = (styleContainerNode, cmpMeta, mode, hostElm) => {
-    var _a;
     let scopeId = getScopeId(cmpMeta);
     const style = styles.get(scopeId);
     // if an element is NOT connected then getRootNode() will return the wrong root node
@@ -206,15 +172,9 @@ const addStyle = (styleContainerNode, cmpMeta, mode, hostElm) => {
             }
             if (!appliedStyles.has(scopeId)) {
                 {
-                    // TODO(STENCIL-659): Remove code implementing the CSS variable shim
                     {
                         styleElm = doc.createElement('style');
                         styleElm.innerHTML = style;
-                    }
-                    // Apply CSP nonce to the style tag if it exists
-                    const nonce = (_a = plt.$nonce$) !== null && _a !== void 0 ? _a : queryNonceMetaTagContent(doc);
-                    if (nonce != null) {
-                        styleElm.setAttribute('nonce', nonce);
                     }
                     styleContainerNode.insertBefore(styleElm, styleContainerNode.querySelector('link'));
                 }
@@ -235,7 +195,6 @@ const attachStyles = (hostRef) => {
     const flags = cmpMeta.$flags$;
     const endAttachStyles = createTime('attachStyles', cmpMeta.$tagName$);
     const scopeId = addStyle(elm.shadowRoot ? elm.shadowRoot : elm.getRootNode(), cmpMeta);
-    // TODO(STENCIL-662): Remove code related to deprecated shadowDomShim field
     if (flags & 10 /* CMP_FLAGS.needsScopedEncapsulation */) {
         // only required when we're NOT using native shadow dom (slot)
         // or this browser doesn't support native shadow dom
@@ -292,21 +251,6 @@ const createElm = (oldParentVNode, newParentVNode, childIndex, parentElm) => {
     }
     return elm;
 };
-/**
- * Create DOM nodes corresponding to a list of {@link d.Vnode} objects and
- * add them to the DOM in the appropriate place.
- *
- * @param parentElm the DOM node which should be used as a parent for the new
- * DOM nodes
- * @param before a child of the `parentElm` which the new children should be
- * inserted before (optional)
- * @param parentVNode the parent virtual DOM node
- * @param vnodes the new child virtual DOM nodes to produce DOM nodes for
- * @param startIdx the index in the child virtual DOM nodes at which to start
- * creating DOM nodes (inclusive)
- * @param endIdx the index in the child virtual DOM nodes at which to stop
- * creating DOM nodes (inclusive)
- */
 const addVnodes = (parentElm, before, parentVNode, vnodes, startIdx, endIdx) => {
     let containerElm = (parentElm);
     let childNode;
@@ -323,26 +267,12 @@ const addVnodes = (parentElm, before, parentVNode, vnodes, startIdx, endIdx) => 
         }
     }
 };
-/**
- * Remove the DOM elements corresponding to a list of {@link d.VNode} objects.
- * This can be used to, for instance, clean up after a list of children which
- * should no longer be shown.
- *
- * This function also handles some of Stencil's slot relocation logic.
- *
- * @param vnodes a list of virtual DOM nodes to remove
- * @param startIdx the index at which to start removing nodes (inclusive)
- * @param endIdx the index at which to stop removing nodes (inclusive)
- */
-const removeVnodes = (vnodes, startIdx, endIdx) => {
-    for (let index = startIdx; index <= endIdx; ++index) {
-        const vnode = vnodes[index];
-        if (vnode) {
-            const elm = vnode.$elm$;
-            if (elm) {
-                // remove the vnode's element from the dom
-                elm.remove();
-            }
+const removeVnodes = (vnodes, startIdx, endIdx, vnode, elm) => {
+    for (; startIdx <= endIdx; ++startIdx) {
+        if ((vnode = vnodes[startIdx])) {
+            elm = vnode.$elm$;
+            // remove the vnode's element from the dom
+            elm.remove();
         }
     }
 };
@@ -528,8 +458,7 @@ const updateChildren = (parentElm, oldCh, newVNode, newCh) => {
  *
  * So, in other words, if `key` attrs are not set on VNodes which may be
  * changing order within a `children` array or something along those lines then
- * we could obtain a false negative and then have to do needless re-rendering
- * (i.e. we'd say two VNodes aren't equal when in fact they should be).
+ * we could obtain a false positive and then have to do needless re-rendering.
  *
  * @param leftVNode the first VNode to check
  * @param rightVNode the second VNode to check
@@ -582,18 +511,6 @@ const patch = (oldVNode, newVNode) => {
         elm.data = text;
     }
 };
-/**
- * The main entry point for Stencil's virtual DOM-based rendering engine
- *
- * Given a {@link d.HostRef} container and some virtual DOM nodes, this
- * function will handle creating a virtual DOM tree with a single root, patching
- * the current virtual DOM tree onto an old one (if any), dealing with slot
- * relocation, and reflecting attributes.
- *
- * @param hostRef data needed to root and render the virtual DOM tree, such as
- * the DOM node into which it should be rendered.
- * @param renderFnResults the virtual DOM nodes to be rendered
- */
 const renderVdom = (hostRef, renderFnResults) => {
     const hostElm = hostRef.$hostElement$;
     const oldVNode = hostRef.$vnode$ || newVNode(null, null);
@@ -629,53 +546,15 @@ const scheduleUpdate = (hostRef, isInitialLoad) => {
     const dispatch = () => dispatchHooks(hostRef, isInitialLoad);
     return writeTask(dispatch) ;
 };
-/**
- * Dispatch initial-render and update lifecycle hooks, enqueuing calls to
- * component lifecycle methods like `componentWillLoad` as well as
- * {@link updateComponent}, which will kick off the virtual DOM re-render.
- *
- * @param hostRef a reference to a host DOM node
- * @param isInitialLoad whether we're on the initial load or not
- * @returns an empty Promise which is used to enqueue a series of operations for
- * the component
- */
 const dispatchHooks = (hostRef, isInitialLoad) => {
     const endSchedule = createTime('scheduleUpdate', hostRef.$cmpMeta$.$tagName$);
     const instance = hostRef.$lazyInstance$ ;
-    // We're going to use this variable together with `enqueue` to implement a
-    // little promise-based queue. We start out with it `undefined`. When we add
-    // the first function to the queue we'll set this variable to be that
-    // function's return value. When we attempt to add subsequent values to the
-    // queue we'll check that value and, if it was a `Promise`, we'll then chain
-    // the new function off of that `Promise` using `.then()`. This will give our
-    // queue two nice properties:
-    //
-    // 1. If all functions added to the queue are synchronous they'll be called
-    //    synchronously right away.
-    // 2. If all functions added to the queue are asynchronous they'll all be
-    //    called in order after `dispatchHooks` exits.
-    let maybePromise;
+    let promise;
     endSchedule();
-    return enqueue(maybePromise, () => updateComponent(hostRef, instance, isInitialLoad));
+    return then(promise, () => updateComponent(hostRef, instance, isInitialLoad));
 };
-/**
- * This function uses a Promise to implement a simple first-in, first-out queue
- * of functions to be called.
- *
- * The queue is ordered on the basis of the first argument. If it's
- * `undefined`, then nothing is on the queue yet, so the provided function can
- * be called synchronously (although note that this function may return a
- * `Promise`). The idea is that then the return value of that enqueueing
- * operation is kept around, so that if it was a `Promise` then subsequent
- * functions can be enqueued by calling this function again with that `Promise`
- * as the first argument.
- *
- * @param maybePromise either a `Promise` which should resolve before the next function is called or an 'empty' sentinel
- * @param fn a function to enqueue
- * @returns either a `Promise` or the return value of the provided function
- */
-const enqueue = (maybePromise, fn) => maybePromise instanceof Promise ? maybePromise.then(fn) : fn();
 const updateComponent = async (hostRef, instance, isInitialLoad) => {
+    // updateComponent
     const elm = hostRef.$hostElement$;
     const endUpdate = createTime('update', hostRef.$cmpMeta$.$tagName$);
     const rc = elm['s-rc'];
@@ -779,6 +658,9 @@ const appDidLoad = (who) => {
         addHydratedFlag(doc.documentElement);
     }
     nextTick(() => emitEvent(win, 'appload', { detail: { namespace: NAMESPACE } }));
+};
+const then = (promise, thenFn) => {
+    return promise && promise.then ? promise.then(thenFn) : thenFn();
 };
 const addHydratedFlag = (elm) => elm.classList.add('hydrated')
     ;
@@ -910,9 +792,9 @@ const proxyComponent = (Cstr, cmpMeta, flags) => {
 const initializeComponent = async (elm, hostRef, cmpMeta, hmrVersionId, Cstr) => {
     // initializeComponent
     if ((hostRef.$flags$ & 32 /* HOST_FLAGS.hasInitializedComponent */) === 0) {
-        // Let the runtime know that the component has been initialized
-        hostRef.$flags$ |= 32 /* HOST_FLAGS.hasInitializedComponent */;
         {
+            // we haven't initialized this element yet
+            hostRef.$flags$ |= 32 /* HOST_FLAGS.hasInitializedComponent */;
             // lazy loaded components
             // request the component's implementation to be
             // wired up with the host element
@@ -1023,7 +905,6 @@ const disconnectedCallback = (elm) => {
     }
 };
 const bootstrapLazy = (lazyBundles, options = {}) => {
-    var _a;
     const endBootstrap = createTime();
     const cmpTags = [];
     const exclude = options.exclude || [];
@@ -1097,11 +978,6 @@ const bootstrapLazy = (lazyBundles, options = {}) => {
     {
         visibilityStyle.innerHTML = cmpTags + HYDRATED_CSS;
         visibilityStyle.setAttribute('data-styles', '');
-        // Apply CSP nonce to the style tag if it exists
-        const nonce = (_a = plt.$nonce$) !== null && _a !== void 0 ? _a : queryNonceMetaTagContent(doc);
-        if (nonce != null) {
-            visibilityStyle.setAttribute('nonce', nonce);
-        }
         head.insertBefore(visibilityStyle, metaCharset ? metaCharset.nextSibling : head.firstChild);
     }
     // Process deferred connectedCallbacks now all components have been registered
@@ -1117,13 +993,6 @@ const bootstrapLazy = (lazyBundles, options = {}) => {
     // Fallback appLoad event
     endBootstrap();
 };
-/**
- * Assigns the given value to the nonce property on the runtime platform object.
- * During runtime, this value is used to set the nonce attribute on all dynamically created script and style tags.
- * @param nonce The value to be assigned to the platform nonce property.
- * @returns void
- */
-const setNonce = (nonce) => (plt.$nonce$ = nonce);
 const hostRefs = /*@__PURE__*/ new WeakMap();
 const getHostRef = (ref) => hostRefs.get(ref);
 const registerInstance = (lazyInstance, hostRef) => hostRefs.set((hostRef.$lazyInstance$ = lazyInstance), hostRef);
@@ -1229,6 +1098,4 @@ const flush = () => {
 const nextTick = /*@__PURE__*/ (cb) => promiseResolve().then(cb);
 const writeTask = /*@__PURE__*/ queueTask(queueDomWrites, true);
 
-export { bootstrapLazy as b, h, promiseResolve as p, registerInstance as r, setNonce as s };
-
-//# sourceMappingURL=index-bfe52b2c.js.map
+export { bootstrapLazy as b, h, promiseResolve as p, registerInstance as r };

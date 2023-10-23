@@ -26,14 +26,13 @@
     "generate": "stencil generate"
   },
   "devDependencies": {
-    "@stencil/core": "3.2.2",
+    "@stencil/core": "2.21.0",
     "@stencil/react-output-target": "0.0.9",
     "jest": "^27.5.1",
-    "jest-cli": "^27.5.1",
-    "@types/puppeteer": "1.12.4"
+    "jest-cli": "^27.5.1"
   },
   "license": "MIT",
   "dependencies": {
-    "puppeteer": "1.14.0"
+    "puppeteer": "9.1.1"
   }
 }

@@ -2,10 +2,10 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index = require('./index-68381c3f.js');
+const index = require('./index-b47ee660.js');
 
 /*
- Stencil Client Patch Esm v3.2.2 | MIT Licensed | https://stenciljs.com
+ Stencil Client Patch Esm v2.21.0 | MIT Licensed | https://stenciljs.com
  */
 const patchEsm = () => {
     return index.promiseResolve();
@@ -18,7 +18,4 @@ const defineCustomElements = (win, options) => {
   });
 };
 
-exports.setNonce = index.setNonce;
 exports.defineCustomElements = defineCustomElements;
-
-//# sourceMappingURL=loader.cjs.js.map

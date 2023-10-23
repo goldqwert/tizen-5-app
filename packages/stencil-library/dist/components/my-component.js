@@ -6,7 +6,7 @@ function format(first, middle, last) {
 
 const myComponentCss = ":host{display:block;color:red;background:black}";
 
-const MyComponent$1 = /*@__PURE__*/ proxyCustomElement(class MyComponent extends HTMLElement {
+const MyComponent$1 = /*@__PURE__*/ proxyCustomElement(class extends HTMLElement {
   constructor() {
     super();
     this.__registerHost();
@@ -45,5 +45,3 @@ const MyComponent = MyComponent$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { MyComponent, defineCustomElement };
-
-//# sourceMappingURL=my-component.js.map
